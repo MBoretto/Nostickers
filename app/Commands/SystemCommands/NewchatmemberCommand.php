@@ -32,14 +32,14 @@ class NewchatmemberCommand extends SystemCommand
     public function execute()
     {
         $message = $this->getMessage();
-
+        $participant = $message->getNewChatMember();
         $chat_id = $message->getChat()->getId();
         $member = $message->getNewChatMember();
 
-        if ($message->botAddedInChat()) {
-            $text = 'Hi there!';
+        if (strtolower($participant->getUsername()) == strtolower($this->getTelegram()->getBotName())) {
+            $text = 'Hello!';
         } else {
-            $text = 'Hi ' . $member->tryMention() . '!';
+            $text = 'Hi ' . $participant->tryMention() . '!';
         }
 
         $data = [
