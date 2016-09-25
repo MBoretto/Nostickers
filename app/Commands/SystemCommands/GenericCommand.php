@@ -38,35 +38,6 @@ class GenericCommand extends NostickerCommand
         $user = $message->getFrom();
         $user_id = $user->getId();
 
-        //if (!$chat->isPrivateChat()) {
-            if ($message->getType() == 'Sticker') {
-                $data = [];
-                $data['chat_id'] = $chat_id;
-                $data['text'] = 'Sticker not allowed.. ' . ucfirst($user->tryMention()) . " has been banned!";
-                Request::sendMessage($data);
-				return Request::kickChatMember(['chat_id' => $chat_id, 'user_id' => $user_id]);
-            }
-
-            if ($message->getType() == 'Voice') {
-                $data = [];
-                $data['chat_id'] = $chat_id;
-                $data['text'] = 'Voice not allowed.. ' . ucfirst($user->tryMention()) . " has been banned!";
-                Request::sendMessage($data);
-				return Request::kickChatMember(['chat_id' => $chat_id, 'user_id' => $user_id]);
-            }
-
-            if ($message->getType() == 'Document') {
-		    	if ($message->getDocument()->getMimeType() == 'video/mp4') {
-                    $data = [];
-                    $data['chat_id'] = $chat_id;
-                    $data['text'] = 'Gif not allowed.. ' . ucfirst($user->tryMention()) . " has been banned!";
-
-                    Request::sendMessage($data);
-				    return Request::kickChatMember(['chat_id' => $chat_id, 'user_id' => $user_id]);
-		    	}
-            }
-        //}
-
         if ($chat->isPrivateChat() && $message->getType() == 'command') {
 
             $data = [];

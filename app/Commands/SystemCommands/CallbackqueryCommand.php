@@ -68,10 +68,23 @@ class CallbackqueryCommand extends NostickerCommand
         $user = $callback_query->getFrom();
         $user_id = $user->getId();
 
-
         //Coming from an chat message ie chat_id defined
         $chat = $message->getChat();
         $chat_id = $chat->getId();
+
+        if (!$this->amIAdmin($chat_id)) {
+            $this->answerCallbackQuery($callback_query_id);
+            $data = [];
+            $data['chat_id'] = $chat_id;
+            $data['message_id'] = $message->getMessageId();
+            $data['parse_mode'] = 'MARKDOWN';
+            $data['text'] = '*Nostickersbot* must be an administrator!';
+            return Request::editMessageText($data);
+		}
+
+        if (!$this->isAdmin($chat_id, $user_id)) {
+            $this->answerCallbackQuery($callback_query_id, 'Only admins can edit settings', true);
+        }
 
         $settings = Setting::find($chat_id); 
 		

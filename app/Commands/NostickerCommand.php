@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the nostikers bot.
+ *
+ * (c) Marco Boretto <marco.bore@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace App\Commands;
 
@@ -31,6 +39,45 @@ abstract class NostickerCommand extends Command
             'text'    => "Temporary down for maintenance. We'll be back soon!",
             ];
         return Request::sendMessage($data);
+    }
+
+    /**
+     * Am I admin
+     *
+     * @var int $chat_id
+     * @return bool
+     */
+    public function amIAdmin($chat_id)
+    {
+		$result = Request::getChatAdministrators(['chat_id' => $chat_id]);
+
+        foreach ($result->getResult() as $administrator) {
+            if ($administrator->getStatus() == 'administrator') {
+                if (strtolower($administrator->getUser()->getUsername()) == strtolower($this->getTelegram()->getBotName())) {
+                    return 1;
+                }
+			}
+        }
+        return 0;
+    }
+
+    /**
+     * is admin
+     *
+     * @var int $chat_id
+     * @var int $user_id
+     * @return bool
+     */
+    public function isAdmin($chat_id, $user_id)
+    {
+		$result = Request::getChatAdministrators(['chat_id' => $chat_id]);
+
+        foreach ($result->getResult() as $administrator) {
+            if ($administrator->getUser()->getId() == $user_id) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
     /**

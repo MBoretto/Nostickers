@@ -37,14 +37,21 @@ class SettingsCommand extends NostickerCommand
         $chat = $message->getChat();
         $chat_id = $chat->getId();
 
-        //if ($chat->isPrivateChat()) {
-        //    $data = [];
-        //    $data['chat_id'] = $chat_id;
-        //    $data['parse_mode'] = 'MARKDOWN';
-        //    $data['text'] = 'Add *Nostickersbot* to a group or supergroup as administrator! ';
-        //    return Request::sendMessage($data);
-        //}
+        if ($chat->isPrivateChat()) {
+            $data = [];
+            $data['chat_id'] = $chat_id;
+            $data['parse_mode'] = 'MARKDOWN';
+            $data['text'] = 'Add *Nostickersbot* to a group or supergroup as administrator! ';
+            return Request::sendMessage($data);
+        }
 
+        if (!$this->amIAdmin($chat_id)) {
+            $data = [];
+            $data['chat_id'] = $chat_id;
+            $data['parse_mode'] = 'MARKDOWN';
+            $data['text'] = '*Nostickersbot* must be an administrator!';
+            return Request::sendMessage($data);
+		}
 
         $data = [];
         $data['chat_id'] = $chat_id;
