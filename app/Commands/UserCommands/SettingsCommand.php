@@ -10,13 +10,13 @@
 
 namespace Longman\TelegramBot\Commands\UserCommands;
 
-use App\Commands\NostickerCommand;
+use App\Commands\NostickersCommand;
 use Longman\TelegramBot\Request;
 
 /**
  * User "/settings" command
  */
-class SettingsCommand extends NostickerCommand
+class SettingsCommand extends NostickersCommand
 {
     /**#@+
      * {@inheritdoc}
@@ -25,6 +25,7 @@ class SettingsCommand extends NostickerCommand
     protected $description = 'Show change SettingsCommand';
     protected $usage = '/settings';
     protected $version = '1.0.0';
+    protected $need_mysql = true;
     /**#@-*/
 
     /**
@@ -41,23 +42,24 @@ class SettingsCommand extends NostickerCommand
             $data = [];
             $data['chat_id'] = $chat_id;
             $data['parse_mode'] = 'MARKDOWN';
-            $data['text'] = 'Add *Nostickersbot* to a group or supergroup as administrator! ';
+            $data['text'] = 'Add *Nostickers* to a group or supergroup as administrator! ';
             return Request::sendMessage($data);
         }
 
-        if (!$this->amIAdmin($chat_id)) {
+        if (!$this->iAmAdmin($chat_id)) {
             $data = [];
             $data['chat_id'] = $chat_id;
             $data['parse_mode'] = 'MARKDOWN';
-            $data['text'] = '*Nostickersbot* must be an administrator!';
+            $data['text'] = '*Nostickers* must be an administrator!';
             return Request::sendMessage($data);
-		}
+        }
 
         $data = [];
         $data['chat_id'] = $chat_id;
         $data['parse_mode'] = 'MARKDOWN';
         $data['text'] = $this->printSettings($chat_id);
         $data['reply_markup'] = $this->printKeyboard();
+        $data['disable_notification'] = true;
 
         return Request::sendMessage($data);
     }

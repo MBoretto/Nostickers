@@ -1,6 +1,6 @@
 {
-    "name": "nosticker",
-    "description": "Nosticker bot for Telegram",
+    "name": "Nostickers",
+    "description": "Nostickers bot for Telegram",
     "keywords": ["framework", "laravel", "lumen", "bot", "telegram"],
     "license": "MIT",
     "type": "project",
@@ -12,7 +12,8 @@
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~4.0",
+        "squizlabs/php_codesniffer": "~2.5"
     },
     "autoload": {
         "psr-4": {

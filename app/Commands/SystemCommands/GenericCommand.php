@@ -11,12 +11,12 @@
 namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use Longman\TelegramBot\Request;
-use App\Commands\NostickerCommand;
+use App\Commands\NostickersCommand;
 
 /**
  * Generic Command
  */
-class GenericCommand extends NostickerCommand
+class GenericCommand extends NostickersCommand
 {
     /**#@+
      * {@inheritdoc}
@@ -39,7 +39,6 @@ class GenericCommand extends NostickerCommand
         $user_id = $user->getId();
 
         if ($chat->isPrivateChat() && $message->getType() == 'command') {
-
             $data = [];
             $data['chat_id'] = $chat_id;
             $data['text'] = 'Command not found.. ☹';

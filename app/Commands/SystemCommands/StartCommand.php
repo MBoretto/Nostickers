@@ -11,12 +11,12 @@
 namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use Longman\TelegramBot\Request;
-use App\Commands\NostickerCommand;
+use App\Commands\NostickersCommand;
 
 /**
  * Start command
  */
-class StartCommand extends NostickerCommand
+class StartCommand extends NostickersCommand
 {
     /**#@+
      * {@inheritdoc}
@@ -36,15 +36,29 @@ class StartCommand extends NostickerCommand
 
         $link_parameters = trim($message->getText(true));
 
-        $chat_id = $message->getChat()->getId();
-        $text = "*Nostickerbot* can *ban* unruly user!\nAdd me to a group or supergroup chat!"; 
+        $chat = $message->getChat();
+        $chat_id = $chat->getId();
 
-        $data = [
-            'chat_id' => $chat_id,
-            'text'    => $text,
-            'parse_mode' => 'MARKDOWN',
-        ];
+        if ($chat->isPrivateChat()) {
+            $data = [];
+            $data['chat_id'] = $chat_id;
+            $data['parse_mode'] = 'MARKDOWN';
+            $data['text'] = 'Add *Nostickers* to a group or supergroup as administrator! ';
+            return Request::sendMessage($data);
+        }
 
+        if (!$this->iAmAdmin($chat_id)) {
+            $data = [];
+            $data['chat_id'] = $chat_id;
+            $data['parse_mode'] = 'MARKDOWN';
+            $data['text'] = '*Nostickers* must be an administrator!';
+            return Request::sendMessage($data);
+        }
+
+        $data = [];
+        $data['chat_id'] = $chat_id;
+        $data['parse_mode'] = 'MARKDOWN';
+        $data['text'] = '💣 *Nostickers* is active in this chat! Type /settings to know how you can be banned!';
         return Request::sendMessage($data);
     }
 }

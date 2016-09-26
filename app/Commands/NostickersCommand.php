@@ -20,7 +20,7 @@ use App\Setting;
 /**
  * Abstract System Command Class
  */
-abstract class NostickerCommand extends Command
+abstract class NostickersCommand extends Command
 {
 
     /**
@@ -47,16 +47,16 @@ abstract class NostickerCommand extends Command
      * @var int $chat_id
      * @return bool
      */
-    public function amIAdmin($chat_id)
+    public function iAmAdmin($chat_id)
     {
-		$result = Request::getChatAdministrators(['chat_id' => $chat_id]);
+        $result = Request::getChatAdministrators(['chat_id' => $chat_id]);
 
         foreach ($result->getResult() as $administrator) {
             if ($administrator->getStatus() == 'administrator') {
                 if (strtolower($administrator->getUser()->getUsername()) == strtolower($this->getTelegram()->getBotName())) {
                     return 1;
                 }
-			}
+            }
         }
         return 0;
     }
@@ -70,7 +70,7 @@ abstract class NostickerCommand extends Command
      */
     public function isAdmin($chat_id, $user_id)
     {
-		$result = Request::getChatAdministrators(['chat_id' => $chat_id]);
+        $result = Request::getChatAdministrators(['chat_id' => $chat_id]);
 
         foreach ($result->getResult() as $administrator) {
             if ($administrator->getUser()->getId() == $user_id) {
@@ -89,13 +89,14 @@ abstract class NostickerCommand extends Command
     public function printSettings($chat_id)
     {
         $settings = Setting::find($chat_id);
-		
         if ($settings == null) {
             $settings = Setting::firstOrCreate(['chat_id' => $chat_id]);
             $settings->updated_by = null;
+            $settings->ban_sticker = 1;
+            $settings->ban_gif = 1;
+            $settings->ban_voice = 1;
             $settings->save();
-		}
-
+        }
         $text = '';
         $text .= ' *Settings*: ' . "\n";
         $text .= ' Ban Sticker:  ' . $this->tickOrCross($settings->ban_sticker) . "\n";
@@ -111,9 +112,9 @@ abstract class NostickerCommand extends Command
      */
     public function printKeyboard()
     {
-		$button1 = new InlineKeyboardButton(['text' => 'Sticker', 'callback_data' => 'sticker']);
-		$button2 = new InlineKeyboardButton(['text' => 'Gif', 'callback_data' => 'gif']);
-		$button3 = new InlineKeyboardButton(['text' => 'Voice', 'callback_data' => 'voice']);
+        $button1 = new InlineKeyboardButton(['text' => 'Sticker', 'callback_data' => 'sticker']);
+        $button2 = new InlineKeyboardButton(['text' => 'Gif', 'callback_data' => 'gif']);
+        $button3 = new InlineKeyboardButton(['text' => 'Voice', 'callback_data' => 'voice']);
         //$keyboard = [[$button1], [$button2], [$button3]];
         $keyboard = [[$button1, $button2, $button3]];
         return new InlineKeyboardMarkup(['inline_keyboard' => $keyboard,]);
@@ -129,7 +130,7 @@ abstract class NostickerCommand extends Command
     {
         if ($is_true) {
             return '✔️';
-		}
+        }
         return '✖️';
     }
 

@@ -3,11 +3,12 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | nosticker
+    | nostickers
     |--------------------------------------------------------------------------
     |
     | Token for nostricker
     |
     */
-    'nosticker' => ['name' => 'nostickerbot', 'token' => 'your-toker', 'botan_token' => 'your-botan-token'],
+    'nostickers' => ['name' => 'nostickersbot', 'token' => 'your-toker', 'botan_token' => 'your-botan-token', 'link' => 'https://link/'],
+
 ];

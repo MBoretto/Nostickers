@@ -28,7 +28,6 @@ class CancelCommand extends UserCommand
     protected $description = 'Cancel the currently active conversation';
     protected $usage = '/cancel';
     protected $version = '0.1.1';
-    protected $need_mysql = true;
     /**#@-*/
 
     /**

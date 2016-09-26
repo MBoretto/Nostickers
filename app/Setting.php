@@ -26,12 +26,12 @@ class Setting extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'chat_id'; 
+    protected $primaryKey = 'chat_id';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-	protected $fillable = ['chat_id'];
+    protected $fillable = ['chat_id'];
 }

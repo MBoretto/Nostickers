@@ -10,13 +10,13 @@
 
 namespace Longman\TelegramBot\Commands\UserCommands;
 
-use App\Commands\NostickerCommand;
+use App\Commands\NostickersCommand;
 use Longman\TelegramBot\Request;
 
 /**
  * User "/help" command
  */
-class HelpCommand extends NostickerCommand
+class HelpCommand extends NostickersCommand
 {
     /**#@+
      * {@inheritdoc}
@@ -41,16 +41,19 @@ class HelpCommand extends NostickerCommand
         $data = [];
         $data['chat_id'] = $chat_id;
         $data['parse_mode'] = 'MARKDOWN';
+        $data['disable_web_page_preview'] = true;
         $text = '';
-        $text .= ' *Nostickers* ' . "\n";
-        $text .= ' _Law in crowded groups_ ' . "\n";
+        $text .= '💣 *Nostickers* ' . "\n";
+        $text .= 'I can ban users that send stickers, gif or voice.' . "\n";
+        $text .= 'Add me in a group or supergroup chat as adminstrator! ' . "\n";
         $text .= '' . "\n";
         $text .= '*Commands*:' . "\n";
         $text .= '/settings - shows and sets options' . "\n";
         $text .= '/help - need help?' . "\n";
         $text .= '' . "\n";
-        $text .= 'Please rate us 5 ⭐️!' . "\n";
-        $text .= 'telegram.me/storebot?start=nostickersbot';
+        $text .= 'Rate me 5 ⭐️ on ';
+        $text .= '[Storebot](https://www.telegram.me/storebot?start=nostickersbot)!' . "\n";
+        $text .= 'Take a look at my code on [Github](https://www.github.com/MBoretto/Nostickers)!';
 
         $data['text'] = $text;
 
