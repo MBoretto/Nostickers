@@ -48,12 +48,16 @@ class GenericmessageCommand extends NostickersCommand
     public function execute()
     {
         $message = $this->getMessage();
+
+        if (is_null($message)) {
+            return Request::emptyResponse();
+        }
+
         $chat = $message->getChat();
 
         if ($chat->isPrivateChat()) {
             return Request::emptyResponse();
         }
-
         //Avoid to do a Query
         if (!($this->isSticker($message) || $this->isGif($message) || $this->isVoice($message))) {
             return Request::emptyResponse();

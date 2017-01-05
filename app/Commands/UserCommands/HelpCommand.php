@@ -52,7 +52,7 @@ class HelpCommand extends NostickersCommand
         $text .= '/help - need help?' . "\n";
         $text .= '' . "\n";
         $text .= 'Rate me 5 ⭐️ on ';
-        $text .= '[Storebot](https://www.telegram.me/storebot?start=nostickersbot)!' . "\n";
+        $text .= '[Storebot](telegram.me/storebot?start=nostickersbot)!' . "\n";
         $text .= 'Take a look at my code on [Github](https://www.github.com/MBoretto/Nostickers)!';
 
         $data['text'] = $text;
