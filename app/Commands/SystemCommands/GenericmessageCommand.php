@@ -14,6 +14,7 @@ use Longman\TelegramBot\Conversation;
 use Longman\TelegramBot\Request;
 use App\Setting;
 use App\Commands\NostickersCommand;
+use Log;
 
 /**
  * Generic message command
@@ -73,6 +74,10 @@ class GenericmessageCommand extends NostickersCommand
         //Please notice that i don't need to check if I am administrator
         //otherwise i will not receive generic messages from the group or supergroup chat
         $settings = Setting::find($chat_id);
+        if ($settings === null) {
+            Log::error("Unable to find the settings on the database for chat_id: " . $chat_id);
+            return Request::emptyResponse();
+        }
         if ($this->isSticker($message) && $settings->ban_sticker) {
             $do_ban = true;
             $data['text'] = '💣 *Sticker* not allowed.. ' . ucfirst($user->tryMention()) . " has been banned!";
